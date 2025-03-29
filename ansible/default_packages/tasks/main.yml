@@ -1,0 +1,13 @@
+---
+# tasks file for default_packages
+
+- name: Изменяем имя машины
+  ansible.builtin.hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Установка программ #Имя задачи 
+  apt: #Используемый модуль
+    name: "{{ item }}" #Имя пакета из цикла
+    state: present #Параметр действия. present - установить, absent - удалить
+  loop:
+    - "{{ packages_to_install }}" #Цикл будет перебирать все значения из переменной "packages"

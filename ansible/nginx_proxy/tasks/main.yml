@@ -1,0 +1,19 @@
+---
+# tasks file for nginx_proxy
+
+- name: Установка Nginx 
+  apt:
+    name: "nginx"
+    state: present
+
+- name: Прокси веб-сервер
+  ansible.builtin.template:
+    src: proxy.j2
+    dest: /etc/nginx/conf.d/http_proxy.conf
+  notify: "Nginx Reloader"
+
+- name: "Удаление /etc/nginx/sites-enabled/default"
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: "Nginx Reloader"

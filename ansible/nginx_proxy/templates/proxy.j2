@@ -1,0 +1,12 @@
+upstream backend {
+    server {{ hostvars[groups['nginx'] | first].ansible_host }}:80;  # Берём первый хост из группы 'nginx'
+}
+
+server {
+    listen {{ listen_port | default(80) }};
+
+    location / {
+        proxy_pass http://backend;
+        include /etc/nginx/proxy_params;
+    }
+}
